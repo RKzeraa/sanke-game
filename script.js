@@ -1,6 +1,12 @@
 let canvas = document.getElementById("snake");
 let context = canvas.getContext("2d");
 let box = 32;
+let score = 0;
+scoreIs = document.getElementById('score');
+hit = new Audio('dead.wav');
+pick = new Audio('eat.wav');
+song = new Audio('song.mp3');
+song.loop = true;
 let snake = [];
 snake[0] = {
     x: 8 * box,
@@ -13,19 +19,20 @@ let food = {
 }
 
 function createBG() {
-    context.fillStyle = "lightgreen";
+    context.fillStyle = "#dadada";
     context.fillRect(0, 0, 16 * box, 16 * box);
+    scoreIs.innerHTML = score;
 }
 
 function createSnake() {
     for(i=0; i < snake.length; i++) {
-        context.fillStyle = "green";
+        context.fillStyle = "#3498db";
         context.fillRect(snake[i].x, snake[i].y, box, box);
     }
 }
 
 function snakeFood() {
-    context.fillStyle = "red";
+    context.fillStyle = "#ff3636";
     context.fillRect(food.x, food.y, box, box);
 }
 
@@ -39,6 +46,7 @@ function update(event) {
 }
 
 function startGame() {
+    song.play();
     if(snake[0].x > 15 * box && direction == "right") snake[0].x = 0;
     if(snake[0].x < 0 && direction == "left") snake[0].x = 16 * box;
     if(snake[0].y > 15 * box && direction == "down") snake[0].y = 0;
@@ -46,11 +54,11 @@ function startGame() {
 
     for(i = 1; i < snake.length; i++) {
         if(snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
-            clearInterval(game);
-            alert('Game Over : (');
+            hit.play();
+            setTimeout(endGame, 20*2);
         }
     }
-
+    
     createBG();
     createSnake();
     snakeFood();
@@ -67,6 +75,8 @@ function startGame() {
         snake.pop();
     }
     else {
+       pick.play();
+       score += 10
        food.x = Math.floor(Math.random() * 15 + 1) * box,
        food.y = Math.floor(Math.random() * 15 + 1) * box
     }
@@ -77,6 +87,12 @@ function startGame() {
     }
 
     snake.unshift(newHead);
+}
+
+function endGame() {
+    clearInterval(game);
+    alert('Game Over! Your Score Is: ' + score);
+    document.location.reload(true);
 }
 
 let game = setInterval(startGame, 100);

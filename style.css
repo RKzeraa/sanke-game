@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+}
+  
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background: -webkit-linear-gradient(top, #7fc5c9, #deabbe);
+    text-align: center;
+
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color:rgb(36, 36, 36);
+    font: 100%/1.5 sans-serif;
+    overflow: hidden;
+}
+
+
+.snake {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.score {
+    color: rgba(36, 36, 36);
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 5px;
+    text-align: center;
+}
